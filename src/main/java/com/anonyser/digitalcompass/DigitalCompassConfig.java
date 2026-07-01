@@ -9,23 +9,6 @@ import net.runelite.client.config.Range;
 @ConfigGroup("digitalcompass")
 public interface DigitalCompassConfig extends Config
 {
-	enum DirectionSource
-	{
-		PLAYER,
-		CAMERA
-	}
-
-	@ConfigItem(
-		keyName = "directionSource",
-		name = "Direction source",
-		description = "Read the player's facing direction or the camera direction.",
-		position = 0
-	)
-	default DirectionSource directionSource()
-	{
-		return DirectionSource.PLAYER;
-	}
-
 	@Range(min = 8, max = 64)
 	@ConfigItem(
 		keyName = "fontSize",

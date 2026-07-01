@@ -7,7 +7,6 @@ there's a small dial with N/E/S/W markers and an arrow pointing the way you're f
 
 ## Options
 
-- **Direction source** — your character's facing direction (default) or the camera.
 - **Font size**, **bold**, and **text colour** for the readout.
 - **Text outline** for readability over bright backgrounds.
 - Toggle the **compass dial** and the **cardinal label** (N, NE, ...).
