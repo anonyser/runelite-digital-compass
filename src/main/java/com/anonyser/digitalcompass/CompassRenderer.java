@@ -25,6 +25,7 @@ public final class CompassRenderer
 		public boolean bold = true;
 		public Color textColor = Color.WHITE;
 		public boolean outline = true;
+		public Color outlineColor = Color.BLACK;
 		public boolean showRose = true;
 		public boolean showCardinal = true;
 		public int dial = 120;
@@ -39,6 +40,14 @@ public final class CompassRenderer
 	{
 		double deg = (units * 360.0) / 2048.0;
 		return (deg + 180.0) % 360.0;
+	}
+
+	// Camera yaw is JAU14 (0-16383). It increases opposite to compass bearing, so negate it
+	// to keep east and west on the correct sides (north/south are unaffected).
+	public static double cameraYawToBearing(int yaw)
+	{
+		double deg = (yaw * 360.0) / 16384.0;
+		return ((-deg) % 360.0 + 360.0) % 360.0;
 	}
 
 	/** Draws the compass at the current transform origin. Returns the space used. */
@@ -117,7 +126,7 @@ public final class CompassRenderer
 
 		if (o.outline)
 		{
-			g.setColor(Color.BLACK);
+			g.setColor(o.outlineColor);
 			for (int dx = -1; dx <= 1; dx++)
 			{
 				for (int dy = -1; dy <= 1; dy++)

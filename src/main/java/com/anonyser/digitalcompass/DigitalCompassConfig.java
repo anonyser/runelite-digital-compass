@@ -9,82 +9,76 @@ import net.runelite.client.config.Range;
 @ConfigGroup("digitalcompass")
 public interface DigitalCompassConfig extends Config
 {
-	@Range(min = 8, max = 64)
+	enum DirectionSource
+	{
+		CAMERA,
+		PLAYER
+	}
+
 	@ConfigItem(
-		keyName = "fontSize",
-		name = "Font size",
-		description = "Size of the degree text.",
-		position = 1
+		keyName = "directionSource",
+		name = "Direction source",
+		description = "Camera follows where you're looking; Player follows the way your character is facing.",
+		position = 0
 	)
+	default DirectionSource directionSource()
+	{
+		return DirectionSource.CAMERA;
+	}
+
+	@Range(min = 8, max = 64)
+	@ConfigItem(keyName = "fontSize", name = "Font size", description = "Size of the degree text.", position = 1)
 	default int fontSize()
 	{
 		return 20;
 	}
 
-	@ConfigItem(
-		keyName = "bold",
-		name = "Bold text",
-		description = "Draw the degree text in bold.",
-		position = 2
-	)
+	@ConfigItem(keyName = "bold", name = "Bold text", description = "Draw the degree text in bold.", position = 2)
 	default boolean bold()
 	{
 		return true;
 	}
 
-	@ConfigItem(
-		keyName = "textColor",
-		name = "Text colour",
-		description = "Colour of the degree text and the facing arrow.",
-		position = 3
-	)
+	@ConfigItem(keyName = "textColor", name = "Text colour", description = "Colour of the degree text and the facing arrow.", position = 3)
 	default Color textColor()
 	{
 		return Color.WHITE;
 	}
 
-	@ConfigItem(
-		keyName = "outline",
-		name = "Text outline",
-		description = "Draw a dark outline behind the text so it stays readable.",
-		position = 4
-	)
+	@ConfigItem(keyName = "outline", name = "Text outline", description = "Draw an outline behind the text so it stays readable.", position = 4)
 	default boolean outline()
 	{
 		return true;
 	}
 
-	@ConfigItem(
-		keyName = "showRose",
-		name = "Show compass dial",
-		description = "Show the dial with N/E/S/W markers and a facing arrow.",
-		position = 5
-	)
+	@ConfigItem(keyName = "outlineColor", name = "Outline colour", description = "Colour of the text outline.", position = 5)
+	default Color outlineColor()
+	{
+		return Color.BLACK;
+	}
+
+	@ConfigItem(keyName = "showRose", name = "Show compass dial", description = "Show the dial with N/E/S/W markers and a facing arrow.", position = 6)
 	default boolean showRose()
 	{
 		return true;
 	}
 
-	@ConfigItem(
-		keyName = "showCardinal",
-		name = "Show cardinal label",
-		description = "Show the nearest cardinal direction (N, NE, ...) next to the degrees.",
-		position = 6
-	)
+	@ConfigItem(keyName = "showCardinal", name = "Show cardinal label", description = "Show the nearest cardinal direction (N, NE, ...) next to the degrees.", position = 7)
 	default boolean showCardinal()
 	{
 		return true;
 	}
 
 	@Range(min = -180, max = 180)
-	@ConfigItem(
-		keyName = "calibration",
-		name = "Calibration offset",
-		description = "Nudge the zero point if the reading looks rotated (degrees).",
-		position = 7
-	)
+	@ConfigItem(keyName = "calibration", name = "Calibration offset", description = "Nudge the zero point if the reading looks rotated (degrees).", position = 8)
 	default int calibration()
 	{
 		return 0;
+	}
+
+	@ConfigItem(keyName = "invert", name = "Reverse direction", description = "Flip the turn direction if it counts the wrong way.", position = 9)
+	default boolean invert()
+	{
+		return false;
 	}
 }

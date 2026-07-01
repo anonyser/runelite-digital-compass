@@ -21,6 +21,7 @@ public class DigitalCompassOverlay extends Overlay
 		this.config = config;
 		setPosition(OverlayPosition.TOP_LEFT);
 		setLayer(OverlayLayer.ABOVE_WIDGETS);
+		setResizable(true);
 	}
 
 	@Override
@@ -32,17 +33,32 @@ public class DigitalCompassOverlay extends Overlay
 			return null;
 		}
 
-		final int units = local.getOrientation();
-		final double bearing = CompassRenderer.jauToBearing(units) + config.calibration();
+		double bearing = config.directionSource() == DigitalCompassConfig.DirectionSource.CAMERA
+			? CompassRenderer.cameraYawToBearing(client.getCameraYaw())
+			: CompassRenderer.jauToBearing(local.getOrientation());
+		if (config.invert())
+		{
+			bearing = 360.0 - bearing;
+		}
+		bearing += config.calibration();
 
 		final CompassRenderer.Options o = new CompassRenderer.Options();
 		o.fontSize = config.fontSize();
 		o.bold = config.bold();
 		o.textColor = config.textColor();
 		o.outline = config.outline();
+		o.outlineColor = config.outlineColor();
 		o.showRose = config.showRose();
 		o.showCardinal = config.showCardinal();
 
+		final Dimension pref = getPreferredSize();
+		if (pref != null && pref.width > 0)
+		{
+			final double scale = Math.max(0.4, pref.width / (double) o.dial);
+			g.scale(scale, scale);
+			CompassRenderer.draw(g, bearing, o);
+			return pref;
+		}
 		return CompassRenderer.draw(g, bearing, o);
 	}
 }
